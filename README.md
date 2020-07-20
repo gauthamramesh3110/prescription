@@ -1,4 +1,4 @@
-#Prescription
+# Prescription
 
 This is a web app to store details of a prescription digitally. This helps you to avoid carrying a prescription around to remember what medication to take. The details are stored in a similar style in which doctors indicate when to take a medicine.
 
