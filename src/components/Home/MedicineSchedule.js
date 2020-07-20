@@ -1,11 +1,31 @@
-import React from "react";
+import React, { Component } from "react";
+import M from "materialize-css";
+import EditMedicineModal from "./EditMedicineModal";
 
-export default function MedicineSchedule({ medicines }) {
-  let medicineScheduleStyle = {
-    marginBottom: "50px",
+export class MedicineSchedule extends Component {
+  componentDidMount() {
+    M.AutoInit();
+  }
+
+  state = {
+    selectedIndex: null,
   };
 
-  let Schedule = (medicine) => {
+  medicineScheduleStyle = {
+    marginBottom: "20px",
+  };
+
+  selectIndexAndConfirm = (index, e) => {
+    this.setState({
+      selectedIndex: index,
+    });
+
+    let el = document.getElementById("delete-confirmation-modal");
+    let modalInstance = M.Modal.getInstance(el);
+    modalInstance.open();
+  };
+
+  Schedule = (medicine) => {
     let colSize = 12 / medicine.schedule.length;
     return (
       <div className="row">
@@ -27,16 +47,34 @@ export default function MedicineSchedule({ medicines }) {
     );
   };
 
-  return medicines != null ? (
-    medicines.map((medicine, index) => {
-      return (
-        <div key={index} style={medicineScheduleStyle}>
-          <h6 className="left-align">{medicine.name}</h6>
-          {Schedule(medicine)}
-        </div>
-      );
-    })
-  ) : (
-    <div>nope</div>
-  );
+  render() {
+    let { medicines } = this.props;
+
+    return medicines != null ? (
+      <div className="container">
+        {medicines.map((medicine, index) => {
+          return (
+            <div className="row" key={index} style={this.medicineScheduleStyle}>
+              <div
+                className="col s12 waves-effect"
+                onClick={this.selectIndexAndConfirm.bind(this, index)}
+                href="#delete-confirmation-modal"
+              >
+                <h6 className="row">{medicine.name}</h6>
+                {this.Schedule(medicine)}
+              </div>
+            </div>
+          );
+        })}
+        <EditMedicineModal
+          selectedIndex={this.state.selectedIndex}
+          deleteMedicine={this.props.deleteMedicine}
+        ></EditMedicineModal>
+      </div>
+    ) : (
+      <div>No Medicines Found</div>
+    );
+  }
 }
+
+export default MedicineSchedule;

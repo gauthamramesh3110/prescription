@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import M from "materialize-css";
 import Login from "../components/Auth/Login";
 import SignUp from "../components/Auth/SignUp";
+import Background from "../assets/background.png";
 
 import firebaseFunctions from "../firebase";
 
@@ -22,12 +23,18 @@ export class Auth extends Component {
     borderRadius: "30px",
   };
 
+  authStyle = {
+    height: "100vh",
+    backgroundImage: "url(" + Background + ")",
+    backgroundSize: "cover"
+  };
+
   render() {
     return (
-      <div>
+      <div style={this.authStyle}>
         <div className="container">
           <div className="row">
-            <div className="col s6 offset-s3">
+            <div className="col s12 m10 offset-m1 l6 offset-l3">
               <div className="card " style={this.loginActionStyle}>
                 <ul
                   className="tabs tabs-fixed-width"

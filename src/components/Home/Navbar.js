@@ -7,9 +7,9 @@ export class Navbar extends Component {
   }
   render() {
     return (
-      <nav>
+      <nav className="navbar-fixed">
         <div className="nav-wrapper">
-          <a href="#" data-target="sidenav-drawer" className="sidenav-trigger">
+          <a href="#!" data-target="sidenav-drawer" className="show-on-medium-and-up sidenav-trigger">
             <i className="material-icons">menu</i>
           </a>
           <a
@@ -18,6 +18,7 @@ export class Navbar extends Component {
           >
             <i className="material-icons">add</i>
           </a>
+          
         </div>
       </nav>
     );

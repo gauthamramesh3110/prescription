@@ -1,6 +1,13 @@
 import React, { Component } from "react";
+import M from "materialize-css";
+
+import firebaseFunctions from "../../firebase";
 
 export class Sidenav extends Component {
+  componentDidMount() {
+    M.AutoInit();
+  }
+
   headerStyle = {
     marginTop: "30px",
   };
@@ -22,7 +29,10 @@ export class Sidenav extends Component {
             <span style={this.usernameStyle}>Username</span>
           </div>
           <div className="row center-align">
-            <button className="btn red waves-effect">
+            <button
+              className="btn red waves-effect sidenav-close"
+              onClick={firebaseFunctions.logout}
+            >
               <span>Logout</span>
               <i className="material-icons left">exit_to_app</i>
             </button>
@@ -31,8 +41,9 @@ export class Sidenav extends Component {
         {this.props.prescriptions != null ? (
           this.props.prescriptions.map((prescription) => {
             return (
-              <li key={prescription.id}>
+              <li key={prescription.id} className="row">
                 <a
+                  href="#!"
                   onClick={this.handleClick.bind(this, prescription.id)}
                   className="waves-effect sidenav-close"
                 >
@@ -44,6 +55,19 @@ export class Sidenav extends Component {
         ) : (
           <li></li>
         )}
+        <div className="container center-align">
+          <div className="row">
+            <div className="col s12">
+              <button
+                className="btn btn-flat waves-effect waves-dark modal-trigger"
+                href="#add-prescription-modal"
+              >
+                <i className="material-icons left">add</i>
+                <span>Add Prescription</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </ul>
     );
   }

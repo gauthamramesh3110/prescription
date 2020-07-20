@@ -6,6 +6,7 @@ import Sidenav from "../components/Home/Sidenav";
 import Navbar from "../components/Home/Navbar";
 import Prescription from "../components/Home/Prescription";
 import AddMedicineModal from "../components/Home/AddMedicineModal";
+import AddPrescriptionModal from "../components/Home/AddPrescriptionModal";
 
 export class Home extends Component {
   state = {
@@ -29,15 +30,90 @@ export class Home extends Component {
 
   addMedicine = (medicine) => {
     let currentPrescription = this.state.currentPrescription;
+    let currentPrescriptionId = currentPrescription.id;
 
     let medicines = currentPrescription.medicines;
     medicines.push(medicine);
 
     firebaseFunctions
-      .modifyMedicines(currentPrescription.id, medicines)
+      .modifyMedicines(currentPrescriptionId, medicines)
       .then((msg) => {
         console.log(msg);
-        currentPrescription.medicines.push(medicine);
+        let newPrescriptions = this.state.prescriptions;
+
+        newPrescriptions.forEach((prescription) => {
+          if (prescription.id === currentPrescriptionId) {
+            prescription.medicines = medicines;
+          }
+        });
+
+        this.setState({
+          prescriptions: newPrescriptions,
+        });
+      });
+  };
+
+  deletePrescription = () => {
+    let prescriptionId = this.state.currentPrescription.id;
+    firebaseFunctions.deletePrescription(prescriptionId).then((msg) => {
+      console.log(msg);
+      let newPrescriptions = this.state.prescriptions.filter((prescription) => {
+        return prescription.id !== prescriptionId;
+      });
+      this.setState({
+        prescriptions: newPrescriptions,
+        currentPrescription: newPrescriptions[0],
+      });
+    });
+  };
+
+  addPrescription = (prescriptionName) => {
+    firebaseFunctions
+      .addPrescription(prescriptionName)
+      .then((newPrescriptions) => {
+        let currentPrescriptions = this.state.prescriptions;
+        currentPrescriptions.push(newPrescriptions);
+        currentPrescriptions.sort(function (a, b) {
+          var x = a.name.toLowerCase();
+          var y = b.name.toLowerCase();
+          if (x < y) {
+            return -1;
+          }
+          if (x > y) {
+            return 1;
+          }
+          return 0;
+        });
+        this.setState({
+          prescriptions: currentPrescriptions,
+        });
+      });
+  };
+
+  deleteMedicine = (medicineIndex) => {
+    let currentPrescription = this.state.currentPrescription;
+    let currentPrescriptionId = currentPrescription.id;
+
+    let medicines = currentPrescription.medicines;
+    medicines = medicines.filter((medicine, index) => {
+      return index !== medicineIndex;
+    });
+
+    firebaseFunctions
+      .modifyMedicines(currentPrescriptionId, medicines)
+      .then((msg) => {
+        console.log(msg);
+        let newPrescriptions = this.state.prescriptions;
+
+        newPrescriptions.forEach((prescription) => {
+          if (prescription.id === currentPrescriptionId) {
+            prescription.medicines = medicines;
+          }
+        });
+
+        this.setState({
+          prescriptions: newPrescriptions,
+        });
       });
   };
 
@@ -62,8 +138,11 @@ export class Home extends Component {
         ></Sidenav>
         <Prescription
           currentPrescription={this.state.currentPrescription}
+          deletePrescription={this.deletePrescription}
+          deleteMedicine={this.deleteMedicine}
         ></Prescription>
         <AddMedicineModal addMedicine={this.addMedicine}></AddMedicineModal>
+        <AddPrescriptionModal addPrescription={this.addPrescription}></AddPrescriptionModal>
       </div>
     );
   }

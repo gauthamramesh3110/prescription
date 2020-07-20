@@ -73,11 +73,49 @@ let modifyMedicines = (prescriptionId, medicines) => {
   });
 };
 
+let addPrescription = (prescriptionName) => {
+  return new Promise((resolve, reject) => {
+    let db = firebase.firestore();
+
+    let newPrescription = {
+      name: prescriptionName,
+      userId: firebase.auth().currentUser.uid,
+    };
+
+    db.collection("prescriptions")
+      .add(newPrescription)
+      .then((doc) => {
+        newPrescription.id = doc.id;
+        resolve(newPrescription);
+      });
+  });
+};
+
+let deletePrescription = (prescriptionId) => {
+  return new Promise((resolve, reject) => {
+    let db = firebase.firestore();
+
+    db.collection("prescriptions")
+      .doc(prescriptionId)
+      .delete()
+      .then(() => {
+        resolve("Prescription Deleted");
+      });
+  });
+};
+
+let logout = () => {
+  firebase.auth().signOut();
+};
+
 let firebaseFunctions = {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   modifyMedicines,
+  deletePrescription,
+  addPrescription,
+  logout,
 };
 
 export default firebaseFunctions;
