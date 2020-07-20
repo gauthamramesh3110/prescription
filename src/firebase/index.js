@@ -1,5 +1,6 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 
 var firebaseConfig = {
   apiKey: "AIzaSyD5F3YhuNSN09C8M-MEOx_2asAqbpkWNeY",
@@ -23,13 +24,37 @@ let signInWithEmailAndPassword = (email, password) => {
 };
 
 let onAuthStateChanged = (history) => {
-  console.log(history);
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      history.push('/')
-    }else{
-      history.push('/auth')
-    }
+  return new Promise((resolve, reject) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      let prescriptions = [];
+
+      if (user) {
+        history.push("/");
+
+        let db = firebase.firestore();
+        db.collection("prescriptions")
+          .where("userId", "==", user.uid)
+          .orderBy("name")
+          .get()
+          .then((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+              let id = doc.id;
+              let name = doc.data().name;
+              let userId = doc.data.userId;
+
+              prescriptions.push({
+                id,
+                name,
+                userId,
+              });
+            });
+            resolve(prescriptions);
+          });
+      } else {
+        history.push("/auth");
+        resolve([]);
+      }
+    });
   });
 };
 
