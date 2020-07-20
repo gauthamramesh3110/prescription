@@ -31,7 +31,7 @@ let createUserWithEmailAndPassword = (email, password, name) => {
         resolve("User Created Successfully!");
       })
       .catch((err) => {
-        reject(err.message);
+        reject(err);
       });
   });
 };
@@ -93,7 +93,10 @@ let onAuthStateChanged = (history) => {
           });
       } else {
         history.push("/auth");
-        resolve([]);
+        resolve({
+          prescriptions: null,
+          userDetails: null,
+        });
       }
     });
   });
@@ -145,7 +148,6 @@ let deletePrescription = (prescriptionId) => {
       });
   });
 };
-
 
 let logout = () => {
   firebase.auth().signOut();
