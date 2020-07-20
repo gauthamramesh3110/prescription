@@ -15,12 +15,39 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-let createUserWithEmailAndPassword = (email, password) => {
-  firebase.auth().createUserWithEmailAndPassword(email, password);
+let createUserWithEmailAndPassword = (email, password, name) => {
+  return new Promise((resolve, reject) => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((res) => {
+        let db = firebase.firestore();
+
+        db.collection("userDetails").doc(res.user.uid).set({
+          email: email,
+          name: name,
+        });
+
+        resolve("User Created Successfully!");
+      })
+      .catch((err) => {
+        reject(err.message);
+      });
+  });
 };
 
 let signInWithEmailAndPassword = (email, password) => {
-  firebase.auth().signInWithEmailAndPassword(email, password);
+  return new Promise((resolve, reject) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        resolve("Sign In Successfully!");
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 };
 
 let onAuthStateChanged = (history) => {
@@ -80,6 +107,7 @@ let addPrescription = (prescriptionName) => {
     let newPrescription = {
       name: prescriptionName,
       userId: firebase.auth().currentUser.uid,
+      medicines: [],
     };
 
     db.collection("prescriptions")

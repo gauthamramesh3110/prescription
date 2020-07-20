@@ -7,20 +7,25 @@ export class Navbar extends Component {
   }
   render() {
     return (
-      <nav className="navbar-fixed">
-        <div className="nav-wrapper">
-          <a href="#!" data-target="sidenav-drawer" className="show-on-medium-and-up sidenav-trigger">
-            <i className="material-icons">menu</i>
-          </a>
-          <a
-            className="btn-floating btn-large halfway-fab waves-effect waves-light modal-trigger"
-            href="#add-medicine-modal"
-          >
-            <i className="material-icons">add</i>
-          </a>
-          
-        </div>
-      </nav>
+      <div className="navbar-fixed">
+        <nav>
+          <div className="nav-wrapper">
+            <a
+              href="#!"
+              data-target="sidenav-drawer"
+              className="show-on-medium-and-up sidenav-trigger"
+            >
+              <i className="material-icons">menu</i>
+            </a>
+            <a
+              className="btn-floating btn-large halfway-fab waves-effect waves-light modal-trigger"
+              href="#add-medicine-modal"
+            >
+              <i className="material-icons">add</i>
+            </a>
+          </div>
+        </nav>
+      </div>
     );
   }
 }

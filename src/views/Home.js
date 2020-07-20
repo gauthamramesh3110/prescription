@@ -70,9 +70,9 @@ export class Home extends Component {
   addPrescription = (prescriptionName) => {
     firebaseFunctions
       .addPrescription(prescriptionName)
-      .then((newPrescriptions) => {
+      .then((newPrescription) => {
         let currentPrescriptions = this.state.prescriptions;
-        currentPrescriptions.push(newPrescriptions);
+        currentPrescriptions.push(newPrescription);
         currentPrescriptions.sort(function (a, b) {
           var x = a.name.toLowerCase();
           var y = b.name.toLowerCase();
@@ -86,6 +86,7 @@ export class Home extends Component {
         });
         this.setState({
           prescriptions: currentPrescriptions,
+          currentPrescription: newPrescription,
         });
       });
   };
@@ -142,7 +143,9 @@ export class Home extends Component {
           deleteMedicine={this.deleteMedicine}
         ></Prescription>
         <AddMedicineModal addMedicine={this.addMedicine}></AddMedicineModal>
-        <AddPrescriptionModal addPrescription={this.addPrescription}></AddPrescriptionModal>
+        <AddPrescriptionModal
+          addPrescription={this.addPrescription}
+        ></AddPrescriptionModal>
       </div>
     );
   }

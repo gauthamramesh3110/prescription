@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import firebaseFunctions from "../../firebase";
+import M from "materialize-css";
 
 export class Login extends Component {
   state = {
@@ -17,10 +18,24 @@ export class Login extends Component {
 
   login = (event) => {
     event.preventDefault();
-    firebaseFunctions.signInWithEmailAndPassword(
-      this.state.email,
-      this.state.password
-    );
+    let emailEmpty = this.state.email.length === 0;
+    let passwordEmpty = this.state.password.length === 0;
+    if (emailEmpty) {
+      M.toast({ html: "Enter and email" });
+    }
+    if (passwordEmpty) {
+      M.toast({ html: "Enter a password" });
+    }
+
+    if (!emailEmpty && !passwordEmpty)
+      firebaseFunctions
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .catch((err) => {
+          if (err.code === "auth/user-not-found") {
+            console.log(err);
+            M.toast({ html: "Email or Password incorrect" });
+          }
+        });
   };
 
   render() {
