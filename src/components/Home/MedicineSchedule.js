@@ -10,7 +10,7 @@ export default function MedicineSchedule({ medicines }) {
     return (
       <div className="row">
         {medicine.schedule.map((isScheduled, index) => {
-          let colClass = "center-align col " + "s" + colSize;
+          let colClass = "center-align col s" + colSize;
           return (
             <div className={colClass} key={index}>
               {isScheduled ? (

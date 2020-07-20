@@ -34,7 +34,7 @@ export class Sidenav extends Component {
               <li key={prescription.id}>
                 <a
                   onClick={this.handleClick.bind(this, prescription.id)}
-                  className="waves-effect"
+                  className="waves-effect sidenav-close"
                 >
                   {prescription.name}
                 </a>

@@ -5,6 +5,7 @@ import firebaseFunctions from "../firebase";
 import Sidenav from "../components/Home/Sidenav";
 import Navbar from "../components/Home/Navbar";
 import Prescription from "../components/Home/Prescription";
+import AddMedicineModal from "../components/Home/AddMedicineModal";
 
 export class Home extends Component {
   state = {
@@ -24,6 +25,20 @@ export class Home extends Component {
     this.setState({
       currentPrescription: selectedPrescription[0],
     });
+  };
+
+  addMedicine = (medicine) => {
+    let currentPrescription = this.state.currentPrescription;
+
+    let medicines = currentPrescription.medicines;
+    medicines.push(medicine);
+
+    firebaseFunctions
+      .modifyMedicines(currentPrescription.id, medicines)
+      .then((msg) => {
+        console.log(msg);
+        currentPrescription.medicines.push(medicine);
+      });
   };
 
   componentDidMount() {
@@ -48,6 +63,7 @@ export class Home extends Component {
         <Prescription
           currentPrescription={this.state.currentPrescription}
         ></Prescription>
+        <AddMedicineModal addMedicine={this.addMedicine}></AddMedicineModal>
       </div>
     );
   }

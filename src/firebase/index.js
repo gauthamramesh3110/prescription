@@ -45,7 +45,7 @@ let onAuthStateChanged = (history) => {
               prescriptions.push({
                 id,
                 name,
-                medicines
+                medicines,
               });
             });
             resolve(prescriptions);
@@ -58,10 +58,26 @@ let onAuthStateChanged = (history) => {
   });
 };
 
+let modifyMedicines = (prescriptionId, medicines) => {
+  return new Promise((resolve, reject) => {
+    let db = firebase.firestore();
+
+    db.collection("prescriptions")
+      .doc(prescriptionId)
+      .update({
+        medicines,
+      })
+      .then(() => {
+        resolve("Successfully Modified Medicines");
+      });
+  });
+};
+
 let firebaseFunctions = {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  modifyMedicines,
 };
 
 export default firebaseFunctions;
