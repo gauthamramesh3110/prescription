@@ -75,7 +75,21 @@ let onAuthStateChanged = (history) => {
                 medicines,
               });
             });
-            resolve(prescriptions);
+
+            db.collection("userDetails")
+              .doc(user.uid)
+              .get()
+              .then((doc) => {
+                let userDetails = {
+                  id: doc.id,
+                  name: doc.data().name,
+                  email: doc.data().email,
+                };
+                resolve({ prescriptions, userDetails });
+              })
+              .catch((err) => {
+                reject(err);
+              });
           });
       } else {
         history.push("/auth");
@@ -131,6 +145,7 @@ let deletePrescription = (prescriptionId) => {
       });
   });
 };
+
 
 let logout = () => {
   firebase.auth().signOut();

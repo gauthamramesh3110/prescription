@@ -12,6 +12,7 @@ export class Home extends Component {
   state = {
     currentPrescription: null,
     prescriptions: null,
+    userDetails: null,
   };
 
   setCurrentPrescription = (prescriptionId) => {
@@ -120,13 +121,16 @@ export class Home extends Component {
 
   componentDidMount() {
     M.AutoInit();
-    firebaseFunctions.onAuthStateChanged(this.props.history).then((docs) => {
-      console.log(docs);
-      this.setState({
-        prescriptions: docs,
-        currentPrescription: docs[0],
+    firebaseFunctions
+      .onAuthStateChanged(this.props.history)
+      .then(({ prescriptions, userDetails }) => {
+        console.log(userDetails)
+        this.setState({
+          prescriptions,
+          currentPrescription: prescriptions[0],
+          userDetails,
+        });
       });
-    });
   }
 
   render() {
@@ -134,6 +138,7 @@ export class Home extends Component {
       <div>
         <Navbar></Navbar>
         <Sidenav
+          userDetails={this.state.userDetails}
           prescriptions={this.state.prescriptions}
           setCurrentPrescription={this.setCurrentPrescription}
         ></Sidenav>

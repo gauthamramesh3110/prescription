@@ -17,17 +17,32 @@ export class Sidenav extends Component {
     fontSize: "20px",
   };
 
+  emailStyle = {
+    fontWeight: "lighter",
+    fontSize: "12px",
+  };
+
   handleClick = (prescriptionId) => {
     this.props.setCurrentPrescription(prescriptionId);
   };
 
   render() {
+    let { userDetails } = this.props;
     return (
       <ul className="sidenav" id="sidenav-drawer">
         <div className="container" style={this.headerStyle}>
-          <div className="row center-align">
-            <span style={this.usernameStyle}>Username</span>
+          <div className="row center-align" style={{marginBottom:'0px'}}>
+            <span style={this.usernameStyle}>
+              {userDetails != null ? userDetails.name : "Username"}
+            </span>
           </div>
+
+          <div className="row center-align" style={{marginTop:'0px'}}>
+            <span style={this.emailStyle}>
+              {userDetails != null ? userDetails.email : "Email"}
+            </span>
+          </div>
+
           <div className="row center-align">
             <button
               className="btn red waves-effect sidenav-close"
