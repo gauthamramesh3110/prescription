@@ -5,3 +5,5 @@ This is a web app to store details of a prescription digitally. This helps you t
 (i.e). |----O----| to indicate twice a day, once in the morning and once in the evening.
 
 visit https://www.prescriptions.netlify.app/ to use the web app.
+
+**Made with _React.js_ and _Materialize css_**
