@@ -31,7 +31,6 @@ export class Login extends Component {
       firebaseFunctions
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .catch((err) => {
-          console.log(err);
           if (err.code === "auth/user-not-found") {
             M.toast({ html: "Email incorrect" });
           }
