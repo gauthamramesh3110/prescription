@@ -16,14 +16,12 @@ export class Home extends Component {
   };
 
   setCurrentPrescription = (prescriptionId) => {
-    console.log(prescriptionId);
     let selectedPrescription = this.state.prescriptions.filter(
       (prescription) => {
         return prescription.id === prescriptionId;
       }
     );
 
-    console.log(selectedPrescription[0]);
     this.setState({
       currentPrescription: selectedPrescription[0],
     });
@@ -39,7 +37,6 @@ export class Home extends Component {
     firebaseFunctions
       .modifyMedicines(currentPrescriptionId, medicines)
       .then((msg) => {
-        console.log(msg);
         let newPrescriptions = this.state.prescriptions;
 
         newPrescriptions.forEach((prescription) => {
@@ -57,7 +54,6 @@ export class Home extends Component {
   deletePrescription = () => {
     let prescriptionId = this.state.currentPrescription.id;
     firebaseFunctions.deletePrescription(prescriptionId).then((msg) => {
-      console.log(msg);
       let newPrescriptions = this.state.prescriptions.filter((prescription) => {
         return prescription.id !== prescriptionId;
       });
@@ -104,7 +100,6 @@ export class Home extends Component {
     firebaseFunctions
       .modifyMedicines(currentPrescriptionId, medicines)
       .then((msg) => {
-        console.log(msg);
         let newPrescriptions = this.state.prescriptions;
 
         newPrescriptions.forEach((prescription) => {
@@ -124,7 +119,6 @@ export class Home extends Component {
     firebaseFunctions
       .onAuthStateChanged(this.props.history)
       .then(({ prescriptions, userDetails }) => {
-        console.log(userDetails)
         this.setState({
           prescriptions,
           currentPrescription: prescriptions[0],

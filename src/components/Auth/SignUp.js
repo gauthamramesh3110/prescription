@@ -38,9 +38,6 @@ export class SignUp extends Component {
           this.state.password,
           this.state.name
         )
-        .then((msg) => {
-          console.log(msg);
-        })
         .catch((err) => {
           M.toast({ html: err.message });
         });

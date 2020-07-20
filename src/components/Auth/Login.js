@@ -32,7 +32,6 @@ export class Login extends Component {
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .catch((err) => {
           if (err.code === "auth/user-not-found") {
-            console.log(err);
             M.toast({ html: "Email or Password incorrect" });
           }
         });
