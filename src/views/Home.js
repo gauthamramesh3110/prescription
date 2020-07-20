@@ -4,29 +4,23 @@ import M from "materialize-css";
 import firebaseFunctions from "../firebase";
 import Sidenav from "../components/Home/Sidenav";
 import Navbar from "../components/Home/Navbar";
+import Prescription from "../components/Home/Prescription";
 
 export class Home extends Component {
   state = {
     currentPrescription: null,
-
-    prescriptions: [
-      {
-        name: "Test",
-        id: "1",
-        userId: "1",
-      },
-    ],
+    prescriptions: null,
   };
 
   setCurrentPrescription = (prescriptionId) => {
-    console.log(prescriptionId)
+    console.log(prescriptionId);
     let selectedPrescription = this.state.prescriptions.filter(
       (prescription) => {
         return prescription.id === prescriptionId;
       }
     );
 
-    console.log(selectedPrescription[0])
+    console.log(selectedPrescription[0]);
     this.setState({
       currentPrescription: selectedPrescription[0],
     });
@@ -51,6 +45,9 @@ export class Home extends Component {
           prescriptions={this.state.prescriptions}
           setCurrentPrescription={this.setCurrentPrescription}
         ></Sidenav>
+        <Prescription
+          currentPrescription={this.state.currentPrescription}
+        ></Prescription>
       </div>
     );
   }

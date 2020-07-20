@@ -28,18 +28,22 @@ export class Sidenav extends Component {
             </button>
           </div>
         </div>
-        {this.props.prescriptions.map((prescription) => {
-          return (
-            <li key={prescription.id}>
-              <a
-                onClick={this.handleClick.bind(this, prescription.id)}
-                className="waves-effect"
-              >
-                {prescription.name}
-              </a>
-            </li>
-          );
-        })}
+        {this.props.prescriptions != null ? (
+          this.props.prescriptions.map((prescription) => {
+            return (
+              <li key={prescription.id}>
+                <a
+                  onClick={this.handleClick.bind(this, prescription.id)}
+                  className="waves-effect"
+                >
+                  {prescription.name}
+                </a>
+              </li>
+            );
+          })
+        ) : (
+          <li></li>
+        )}
       </ul>
     );
   }

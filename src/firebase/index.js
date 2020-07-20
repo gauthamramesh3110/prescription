@@ -40,12 +40,12 @@ let onAuthStateChanged = (history) => {
             snapshot.docs.forEach((doc) => {
               let id = doc.id;
               let name = doc.data().name;
-              let userId = doc.data.userId;
+              let medicines = doc.data().medicines;
 
               prescriptions.push({
                 id,
                 name,
-                userId,
+                medicines
               });
             });
             resolve(prescriptions);
