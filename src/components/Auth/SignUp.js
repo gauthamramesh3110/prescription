@@ -14,7 +14,7 @@ export class SignUp extends Component {
   SignUp = (event) => {
     event.preventDefault();
 
-    const emailRe = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailRe = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
 
     let passwordsMatch = this.state.password === this.state.retypePassword;
     let validateName =
@@ -41,8 +41,8 @@ export class SignUp extends Component {
         .then((msg) => {
           console.log(msg);
         })
-        .catch((msg) => {
-          M.toast({ html: msg });
+        .catch((err) => {
+          M.toast({ html: err.message });
         });
   };
 
